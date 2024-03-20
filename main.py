@@ -15,7 +15,7 @@ counter = Value('i', 0)
 app = Flask(__name__)
 logging.basicConfig(format="%(message)s", level=logging.INFO)
 # SERVER_URL = "http://khan2a.com:8080"
-SERVER_URL = "https://13c5-5-80-36-69.ngrok-free.app"
+SERVER_URL = "https://9b2af9f4-0c77-4c58-88f2-211c03ef2bd0-00-1b5tuzgaiqczj.janeway.replit.dev"
 API_KEY = "xxxxx"
 # # API_KEY = "hxxxxx"
 API_SECRET = "xxxxx"
