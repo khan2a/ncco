@@ -351,6 +351,20 @@ def omar():
         return (resp, 200)
     # return (jsonify([{"tts_ng6": "400"}]), 200)
 
+@app.route("/", methods=["GET", "POST"])
+def base():
+    if request.is_json:
+        print("ncco_event_url --> " + str(request.get_json()))
+        if "recording_url" in request.get_json():
+            print(
+                "\n>>>>>\nrecording_url: {0}?api_key={1}&api_secret={2}\n<<<<<\n".format(
+                    request.get_json()["recording_url"], API_KEY, API_SECRET
+                )
+            )
+    else:
+        print("ncco_eventUrl --> " + str(request))
+    return ("hello world", 200)
+
 
 if __name__ == "__main__":
     parser = ArgumentParser()
