@@ -357,6 +357,18 @@ def base():
   return ("hello world", 200)
 
 
+@app.route('/audio/<filename>')
+def stream_audio(filename):
+  print(f"audio file requested: {filename}")
+  def generate():
+    with open(f"audio/{filename}", "rb") as faudio:
+        data = faudio.read(1024)
+        while data:
+            yield data
+            data = faudio.read(1024)
+  return Response(generate(), mimetype=f"audio/x-{filename.split('.')[1]}")
+
+
 if __name__ == "__main__":
   parser = ArgumentParser()
   parser.add_argument("-p")
