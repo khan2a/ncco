@@ -68,23 +68,28 @@ def amd_event_url():
 
 @app.route("/answer_url", methods=["GET", "POST"])
 def answer_url():
-  # time.sleep(7)
-  event_json = request.get_json() if request.is_json else {}
+  ncco = ""
+  event_json = {}
   for arg in request.args.keys():
     event_json[arg] = request.args.get(arg)
-  ncco = [{
-      "action": "conversation",
-      "name": "conference_{0}".format(event_json["uuid"]),
-      # "muted": False,
-      # "record": False,
-      # "earmuff": True,
-      # "playExitSound": True,
-      # "endOnExit": True,
-      # "startOnEnter": False,
-      # "playEnterSound": False,
-      # "musicOnHoldUrl": ["https://static.dev.nexmoinc.net/svc/ncco/audio_files/wav/sample-8000_bitrate-16_channels-1_duration-225s.wav"],
-      # "eventCallbackUrl": ["{0}/ncco_event_url".format(SERVER_URL)]
-  }]
+  ncco = [        {
+            "action": "connect",
+            "eventType": "synchronous",
+            "eventUrl": [
+                event_json["eventUrl"]
+            ],
+            "from": event_json["from"],
+            "endpoint": [
+                {
+                    "type": "websocket",
+                    "uri": event_json["uri"],
+                    "content-type": "audio/l16;rate=16000",
+                    "headers": {
+                        "app": "audiosocket"
+                    }
+                }
+            ]
+        }]
   print("\n*****\nanswer_url --> Sending NCCO: {0}\n*****\n".format(ncco))
   return (jsonify(ncco) if ncco != "" else "", 200)
 
@@ -298,7 +303,7 @@ def ncco_event_url():
       if "results" in speech:
         results = speech["results"]
         for result in results:
-          print("\n\rresult: {0}\n".format(result))
+          print("result: {0}".format(result))
   else:
     print("ncco_event_url --> " + str(request))
   return ("", 204)
